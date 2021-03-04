@@ -1,0 +1,31 @@
+.task {
+  border: 1px solid black;
+  display: flex;
+  width: 250px;
+  justify-content: space-between;
+  margin: 10px;
+  align-items: center;
+  padding: {
+    left: 10px;
+    right: 10px;
+  }
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 300px;
+
+  max-height: 500px;
+  min-height: 50px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  margin: 0 auto;
+  border: 1px solid black;
+}
+.struckouted {
+    text-decoration: line-through;
+    color: green;
+}
