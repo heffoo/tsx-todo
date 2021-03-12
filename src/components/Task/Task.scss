@@ -19,13 +19,16 @@
     right: 10px;
   }
 }
+
 .checkbox {
   margin-right: 15px;
 }
+
 .struckouted {
   text-decoration: line-through;
   color: green;
 }
+
 .editTaskInp {
   width: 120px;
   font-size: 16px;
@@ -44,6 +47,7 @@
 .formIcon {
   background-color: transparent;
   border: 0;
+  outline: 0;
   cursor: pointer;
   &:hover {
     transition: 0.2s;

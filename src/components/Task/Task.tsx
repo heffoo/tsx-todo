@@ -8,6 +8,7 @@ import delIcon from "../../img/del.svg";
 import deleteIcon from "../../img/delete.svg";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+// import "../../main.js"
 interface Props {
   task: intTask;
   index: number;
@@ -33,7 +34,7 @@ export const Task: FC<Props> = ({ task, index, tasks, delTask, checkedTask }) =>
   };
 console.log(deleteIcon)
   return (
-    <li className="task" key={task.id}>
+    <li className="task" id="task" key={task.id}>
       <div className="valueTitle">
         {/* <input type="checkbox" className="checkbox" checked={task.completed} onChange={() => checkedTask(task.id)} /> */}
 

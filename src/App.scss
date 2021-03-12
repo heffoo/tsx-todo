@@ -19,7 +19,7 @@
   position: relative;
   width: 300px;
 
-  max-height: 500px;
+  max-height: 480px;
   min-height: 50px;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -44,4 +44,12 @@
 .bgButton2 {
   @extend .bgButton;
   color: white;
+}
+.draggableItem {
+  padding: 0;
+  margin: 0;
+}
+
+.selected {
+  opacity: 0.6;
 }

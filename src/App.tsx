@@ -8,9 +8,8 @@ import TextField from "@material-ui/core/TextField";
 import { createMuiTheme } from "@material-ui/core/styles";
 import blue from "@material-ui/core/colors/blue";
 import grey from "@material-ui/core/colors/grey";
-
-import Button from "@material-ui/core/Button";
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider } from "@material-ui/styles";
+import {draggable} from "./main.js"
 export interface intTask {
   title: string;
   completed: boolean;
@@ -18,9 +17,12 @@ export interface intTask {
 }
 
 export type DeleteTask = (id: string) => void;
+setTimeout(() => {
+  draggable()
+}, 500);
 
 function App() {
-  const [tasks, setTasks] = useState<intTask[]>(JSON.parse((localStorage.getItem("data") ?? "")));
+  const [tasks, setTasks] = useState<intTask[]>(JSON.parse(localStorage.getItem("data") ?? ""));
   const [bgOn, isBgOn] = useState<boolean>(false);
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ function App() {
       },
       secondary: {
         main: grey[900],
-      }
+      },
     },
   });
 
@@ -60,28 +62,33 @@ function App() {
     });
     setTasks(tasksChecked);
     localStorage.setItem("data", JSON.stringify(tasksChecked));
-
   };
+  
   return (
     <div className={bgOn ? "App" : "App2"}>
-        <button  className={!bgOn ? 'bgButton' : 'bgButton2'} onClick={() => isBgOn(!bgOn)}>
-          {!bgOn ? 'bg on' : 'bg off'}
-        </button>
-     
+      <button className={!bgOn ? "bgButton" : "bgButton2"} onClick={() => isBgOn(!bgOn)}>
+        {!bgOn ? "bg on" : "bg off"}
+      </button>
 
       {bgOn && <Stars />}
       <div className="form">
-   {/* <button onClick={() => setSort()}>sort by <p>{sort === 'down' ? '▼' : 'yes'}</p></button> */}
+        {/* <button onClick={() => setSort()}>sort by <p>{sort === 'down' ? '▼' : 'yes'}</p></button> */}
         <form name="searchForm" onSubmit={onSubmit}>
           <ThemeProvider theme={theme}>
-          <TextField type="text" id="standard-basic" name="addTaskInput" color={!bgOn ? "secondary" : "primary"} label="Введите задачу" /> 
+            <TextField
+              type="text"
+              id="standard-basic"
+              name="addTaskInput"
+              color={!bgOn ? "secondary" : "primary"}
+              label="Введите задачу"
+            />
           </ThemeProvider>
         </form>
-        <div>
+        <ul className="draggableItem" id="draggableItem">
           {tasks.map((task: intTask, index: number) => (
-            <Task key={task.id} task={task} checkedTask={checkedTask} index={index} tasks={tasks} delTask={delTask} />
+              <Task key={task.id} task={task} checkedTask={checkedTask} index={index} tasks={tasks} delTask={delTask} />
           ))}
-        </div>
+        </ul>
       </div>
     </div>
   );
