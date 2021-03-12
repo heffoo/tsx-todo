@@ -1,4 +1,4 @@
-import "./star.css";
+import "./star.scss";
 import $ from "jquery";
 
 export const spawnStars = () => {

@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import "./star.css";
+import "./star.scss";
 import "./starsjs.js"
 import {spawnStars} from './starsjs'
 export const Stars = () => {
