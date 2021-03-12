@@ -2,8 +2,15 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import "./App.scss";
 import React from "react";
-import { Task } from "./components/Task";
+import { Task } from "./components/Task/Task";
+import { Stars } from "./components/stars/stars";
+import TextField from "@material-ui/core/TextField";
+import { createMuiTheme } from "@material-ui/core/styles";
+import blue from "@material-ui/core/colors/blue";
+import grey from "@material-ui/core/colors/grey";
 
+import Button from "@material-ui/core/Button";
+import { ThemeProvider } from '@material-ui/styles';
 export interface intTask {
   title: string;
   completed: boolean;
@@ -13,8 +20,8 @@ export interface intTask {
 export type DeleteTask = (id: string) => void;
 
 function App() {
-  const [tasks, setTasks] = useState<intTask[]>([{ title: "value", completed: false, id: "1" }]);
-
+  const [tasks, setTasks] = useState<intTask[]>(JSON.parse((localStorage.getItem("data") ?? "")));
+  const [bgOn, isBgOn] = useState<boolean>(false);
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const form = document.forms.searchForm;
@@ -25,14 +32,25 @@ function App() {
     } else {
       alert("type smth");
     }
-    // localStorage.setItem("data", JSON.stringify([{ title: value, completed: false, id: uuidv4() }, ...tasks]));
+    localStorage.setItem("data", JSON.stringify([{ title: value, completed: false, id: uuidv4() }, ...tasks]));
     form.elements.addTaskInput.value = "";
   };
 
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: blue[900],
+      },
+      secondary: {
+        main: grey[900],
+      }
+    },
+  });
 
   const delTask: DeleteTask = (id) => {
     const filteredTasks = tasks.filter((task) => task.id !== id);
     setTasks(filteredTasks);
+    localStorage.setItem("data", JSON.stringify(filteredTasks));
   };
 
   const checkedTask = (id: string) => {
@@ -41,13 +59,23 @@ function App() {
       else return task;
     });
     setTasks(tasksChecked);
-  };
+    localStorage.setItem("data", JSON.stringify(tasksChecked));
 
+  };
   return (
-    <div className="App">
+    <div className={bgOn ? "App" : "App2"}>
+        <button  className={!bgOn ? 'bgButton' : 'bgButton2'} onClick={() => isBgOn(!bgOn)}>
+          {!bgOn ? 'bg on' : 'bg off'}
+        </button>
+     
+
+      {bgOn && <Stars />}
       <div className="form">
+   {/* <button onClick={() => setSort()}>sort by <p>{sort === 'down' ? '▼' : 'yes'}</p></button> */}
         <form name="searchForm" onSubmit={onSubmit}>
-          <input type="text" name="addTaskInput" />
+          <ThemeProvider theme={theme}>
+          <TextField type="text" id="standard-basic" name="addTaskInput" color={!bgOn ? "secondary" : "primary"} label="Введите задачу" /> 
+          </ThemeProvider>
         </form>
         <div>
           {tasks.map((task: intTask, index: number) => (

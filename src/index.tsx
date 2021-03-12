@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { Stars } from './components/stars/stars';
 
 ReactDOM.render(
   <React.StrictMode>
