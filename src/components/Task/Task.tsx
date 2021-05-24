@@ -1,12 +1,13 @@
 import "./Task.scss";
 import React, { FC } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { intTask, DeleteTask } from "../../App";
 import createIcon from "../../img/create.svg";
 import saveIcon from "../../img/save.svg";
-import delIcon from "../../img/del.svg";
 import deleteIcon from "../../img/delete.svg";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { draggable } from "../../main.js";
+
 import Checkbox from "@material-ui/core/Checkbox";
 // import "../../main.js"
 interface Props {
@@ -19,7 +20,7 @@ interface Props {
 
 export const Task: FC<Props> = ({ task, index, tasks, delTask, checkedTask }) => {
   const [edited, setEdited] = useState<boolean>(false);
-
+  const [ActiveTask, setActiveTask] = useState<any>();
   const editTask = (id: any, value: any) => {
     let elemTask = tasks[id];
     elemTask.title = value;
@@ -32,9 +33,25 @@ export const Task: FC<Props> = ({ task, index, tasks, delTask, checkedTask }) =>
     }
     setEdited(!edited);
   };
-console.log(deleteIcon)
+
+  setTimeout(() => {
+    draggable(tasks, ActiveTask, setActiveTask);
+  }, 500);
+
+  let activeTask: intTask;
+  console.log("active", ActiveTask);
+  const setIsActive = (id: any) => {
+    id.isActive = true;
+
+    if (task.isActive) {
+      console.log("here");
+      activeTask = task;
+      setActiveTask(activeTask);
+    }
+  };
+
   return (
-    <li className="task" id="task" key={task.id}>
+    <li className="task" id="task" key={task.id} onMouseDown={() => setIsActive(task)}>
       <div className="valueTitle">
         {/* <input type="checkbox" className="checkbox" checked={task.completed} onChange={() => checkedTask(task.id)} /> */}
 
@@ -65,7 +82,6 @@ console.log(deleteIcon)
         <button className="delButton" onClick={() => delTask(task.id)}>
           <img alt="" src={deleteIcon}></img>
         </button>
-
       </div>
     </li>
   );
